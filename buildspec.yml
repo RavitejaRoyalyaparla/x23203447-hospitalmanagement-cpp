@@ -26,7 +26,7 @@ phases:
 
   pre_build:
     commands:
-    - pip install -r requirements.txt
+    # - pip install -r requirements.txt
     # Runnig pylint to check errors in the code
   # - pylint --exit-zero --output-format=text home city_hospital " | tee pylint_report.txt
   # - PYLINT_SCORE=$(awk '/Your code has been rated at/{print $}' pylint_report.txt | cut -d'/' -f1)
