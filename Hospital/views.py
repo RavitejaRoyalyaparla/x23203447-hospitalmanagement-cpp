@@ -81,16 +81,22 @@ def ALL_APPOINTMENT(request):
 
 def ADD_DOCTOR(request):
     if request.method == 'POST':
-        doctor_name = request.POST.get('Doctor-name')
-        dob = request.POST.get('dob')
+        doctor_name = request.POST.get('doctor_name')
+        dob_str = request.POST.get('dob')
         department = request.POST.get('department')
         experience = request.POST.get('experience')
         phone = request.POST.get('phone')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
-        doctor_details = request.POST.get('about-doctor')
+        doctor_details = request.POST.get('about_doctor')  # Corrected field name
         address = request.POST.get('address')
-        
+
+        try:
+            # Convert dob to the correct format
+            dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
+        except ValueError:
+            # dob is not in the correct format
+            return render(request, 'doctors/add_doctor.html', {'error': 'Date of birth must be in YYYY-MM-DD format'})
 
         doctor = Doctor(
             doctor_name=doctor_name,
@@ -102,10 +108,9 @@ def ADD_DOCTOR(request):
             gender=gender,
             doctor_details=doctor_details,
             address=address,
-            
         )
         doctor.save()
-    
+            
     return render(request, 'doctors/add_doctor.html')
 
 def ALL_DOCTOR(request):
